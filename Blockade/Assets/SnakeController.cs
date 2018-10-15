@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class SnakeController : MonoBehaviour {
 
@@ -51,6 +52,9 @@ public class SnakeController : MonoBehaviour {
         //    }
         //}
 
+        if(Input.GetKey(KeyCode.R)){
+            UnityEngine.SceneManagement.SceneManager.LoadScene("LevelOne");
+        }
     }
 
     void Move()
