@@ -15,7 +15,7 @@ public class SnakeController : MonoBehaviour {
     public int count;
     public Text PlayerOneScore;
     public Text PlayerTwoScore;
-
+    private Vector2 pos;
     private int triggerCount;
     private bool isHit;
 
@@ -27,7 +27,6 @@ public class SnakeController : MonoBehaviour {
     List<Transform> tailOne = new List<Transform>();
 
 	void Start () {
-        //InvokeRepeating("Move", 0.02f, 0.02f);
         //Vector2 pos = transform.position;
         //PlayerOneScore= GetComponent<Text>();
         //PlayerTwoScore= GetComponent<Text>();
@@ -58,10 +57,12 @@ public class SnakeController : MonoBehaviour {
         else if (Input.GetKey(KeyCode.RightArrow) && gameObject.tag.Equals("PlayerTwo"))
             direction = Vector2.right;
 
-        if (count % 50 == 0)
+        if (count % 30 == 0)
         {
+            pos = transform.position;
             Move();
-           
+           //Debug.Log(pos);
+            Instantiate(PlayerOnePreFab, pos, transform.rotation);
         }
 
 
@@ -73,18 +74,20 @@ public class SnakeController : MonoBehaviour {
 
     void Move()
     {
-        Vector2 v = transform.position;
+
         transform.Translate(direction * speed);
-       // GameObject g = (GameObject)Instantiate(PlayerOnePreFab, v, Quaternion.identity);
-        //tailOne.Insert(0, g.transform);
-
-        //if(tailOne.Count > 0){
-        //    tailOne.Last().position = v;
-
-        //    tailOne.Insert(0, tailOne.Last());
-        //    tailOne.RemoveAt(tailOne.Count - 1);
-        //}
       
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag.Equals("Wall") && gameObject.tag.Equals("PlayerOne")){
+            Debug.Log("HITTTTT THE WALLL");
+            transform.Translate(direction * speed);
+            speed = 0;
+            playerOneScoreCount++;
+            SetPointsText();
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -105,17 +108,17 @@ public class SnakeController : MonoBehaviour {
             playerTwoScoreCount++;
             SetPointsText();
         }
-        if (other.gameObject.tag.Equals("PlayerTwo") && gameObject.tag.Equals("PlayerOne"))
+        if (gameObject.tag.Equals("PlayerTwo") && other.gameObject.tag.Equals("Tail"))
         {
-            Debug.Log("HITTTTT THE WALLL");
+            Debug.Log("I hit player one");
             transform.Translate(direction * speed);
             speed = 0;
             playerOneScoreCount++;
             SetPointsText();
         }
-        if (other.gameObject.tag.Equals("PlayerOne") && gameObject.tag.Equals("PlayerOne"))
+        if (gameObject.tag.Equals("PlayerOne") && other.gameObject.tag.Equals("Tail"))
         {
-            Debug.Log("HITTTTT THE WALLL");
+            Debug.Log("I hit player two");
             transform.Translate(direction * speed);
             speed = 0;
             playerTwoScoreCount++;
@@ -140,4 +143,5 @@ public class SnakeController : MonoBehaviour {
     //        yield return new WaitForSeconds(.5f);
     //    }
     //}
+
 }
