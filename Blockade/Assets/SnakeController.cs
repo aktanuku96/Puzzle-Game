@@ -10,19 +10,20 @@ public class SnakeController : MonoBehaviour {
     // Use this for initialization
     Vector2 direction = Vector2.down;
 
-    public float speed;
+    public float speedOne;
+    public float speedTwo;
     public GameObject PlayerOnePreFab;
     public int count;
     public Text PlayerOneScore;
     public Text PlayerTwoScore;
-    private Vector2 pos;
-    private int triggerCount;
-    private bool isHit;
+    public bool isHit;
 
-    private int pauseCount;
+    public AudioClip sound;
+    public AudioSource aud;
+
+    private Vector2 pos;
     private int playerOneScoreCount;
     private int playerTwoScoreCount;
-
 
     List<Transform> tailOne = new List<Transform>();
 
@@ -32,12 +33,26 @@ public class SnakeController : MonoBehaviour {
         //PlayerTwoScore= GetComponent<Text>();
         playerOneScoreCount = 0;
         playerTwoScoreCount = 0;
-       // pauseCount = 0;
+
+        aud.clip = sound;
+        // pauseCount = 0;
         //StartCoroutine(BlinkText());
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        isHit = false;
+        //Debug.Log("Is it Hit? : " + isHit + " " + gameObject.name);
+        if(gameObject.tag.Equals("PlayerOne")){
+            direction = Vector2.down;
+
+        }
+        else if (gameObject.tag.Equals("PlayerTwo"))
+        {
+            direction = Vector2.down;
+
+        }
+    }
+
+    // Update is called once per frame
+    void Update () {
+
         count += 1;
 
         if (Input.GetKey(KeyCode.S) && gameObject.tag.Equals("PlayerOne"))
@@ -57,12 +72,29 @@ public class SnakeController : MonoBehaviour {
         else if (Input.GetKey(KeyCode.RightArrow) && gameObject.tag.Equals("PlayerTwo"))
             direction = Vector2.right;
 
-        if (count % 30 == 0)
+        if (count % 10 == 0)
         {
             pos = transform.position;
-            Move();
-           //Debug.Log(pos);
-            Instantiate(PlayerOnePreFab, pos, transform.rotation);
+            if(isHit == false){
+
+                Move();
+                //Instantiate(PlayerOnePreFab, pos, transform.rotation);
+            }
+
+            else{
+                Debug.Log("hi");
+                Stop();
+            }
+
+            //else{
+                //if(gameObject.tag.Equals("PlayerOne") || gameObject.tag.Equals("PlayerTwo"))
+                //{
+                //    speed = 0;
+                //}
+               
+                //Debug.Log("all should stop");
+            //}
+           
         }
 
 
@@ -74,74 +106,132 @@ public class SnakeController : MonoBehaviour {
 
     void Move()
     {
+        aud.PlayOneShot(sound);
+        if ((gameObject.name =="PlayerOne" && isHit == false))
+        {
+            transform.position += (Vector3)(direction * speedOne);
+            Instantiate(PlayerOnePreFab, pos, transform.rotation);
+        }
 
-        transform.Translate(direction * speed);
-      
+        else if((gameObject.name == "PlayerTwo" && isHit == false)){
+            transform.position += (Vector3)(direction * speedTwo);
+            Instantiate(PlayerOnePreFab, pos, transform.rotation);
+        }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.tag.Equals("Wall") && gameObject.tag.Equals("PlayerOne")){
-            Debug.Log("HITTTTT THE WALLL");
-            transform.Translate(direction * speed);
-            speed = 0;
-            playerOneScoreCount++;
-            SetPointsText();
+    void Stop(){
+
+        if ((gameObject.name == "PlayerOne"))
+        {
+           // Debug.Log("hiii");
+            transform.position += (Vector3)(direction * 0);
+        }
+
+        if ((gameObject.name == "PlayerTwo"))
+        {
+            transform.position += (Vector3)(direction * 0);
+           
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag.Equals("Wall") && gameObject.tag.Equals("PlayerTwo")){
-            Debug.Log("HITTTTT THE WALLL");
-            transform.Translate(direction*speed);
-            speed = 0;
-            playerOneScoreCount++;
-            SetPointsText();
-            //UnityEngine.SceneManagement.SceneManager.LoadScene("LevelOne");
+       // Debug.Log(other.gameObject.tag);
+       // Debug.Log(gameObject.tag);
+        isHit = true;
+        //Debug.Log("Is it hit? : " + isHit + " " + gameObject.name);
+        //speed = 0;
+        if (other.gameObject.tag.Equals("Wall")){
+            //speed = 0;
+            speedOne = 0;
+            speedTwo = 0;
+            if (gameObject.tag.Equals("PlayerOne")){
+                //Debug.Log("HITTTTT THE WALLL");
+                //transform.Translate(direction * speed);
+                //speedOne = 0;
+                //speedTwo = 0;
+                playerTwoScoreCount++;
+                SetPointsText();
+            }
+
+            if(gameObject.tag.Equals("PlayerTwo"))
+            {
+                //Debug.Log("HITTTTT THE WALLL");
+                // transform.Translate(direction * speed);
+                //speedOne = 0;
+                //speedTwo = 0;
+                playerOneScoreCount++;
+                SetPointsText();
+
+            }
+           
         }
-        if (other.gameObject.tag.Equals("Wall") && gameObject.tag.Equals("PlayerOne"))
+        //else if (other.gameObject.tag.Equals("Wall") && )
+        //{
+           
+        //}
+        else if (other.gameObject.tag.Equals("Tail"))
         {
-            Debug.Log("HITTTTT THE WALLL");
-            transform.Translate(direction * speed);
-            speed = 0;
+            if(gameObject.tag.Equals("PlayerOne")){
+                //Debug.Log("I hit player one");
+                //transform.Translate(direction * speed);
+                speedOne = 0;
+                speedTwo = 0;
+                playerTwoScoreCount++;
+                SetPointsText();
+            }
+
+            else if(gameObject.tag.Equals("PlayerOne")){
+                // Debug.Log("I hit player two");
+                //transform.Translate(direction * speed);
+                speedOne = 0;
+                speedTwo = 0;
+                playerOneScoreCount++;
+                SetPointsText();
+            }
+           
+        }
+        //else if (other.gameObject.tag.Equals("Tail") && gameObject.tag.Equals("PlayerOne") )
+        //{
+
+        //}
+
+        else if(other.gameObject.tag.Equals("PlayerOne")){
+            // Debug.Log("I hit player one");
+            //transform.Translate(direction * speed);
+            speedOne = 0;
+            speedTwo = 0;
             playerTwoScoreCount++;
             SetPointsText();
         }
-        if (gameObject.tag.Equals("PlayerTwo") && other.gameObject.tag.Equals("Tail"))
+
+        else if (other.gameObject.tag.Equals("PlayerTwo"))
         {
-            Debug.Log("I hit player one");
-            transform.Translate(direction * speed);
-            speed = 0;
+            // Debug.Log("I hit player one");
+            //transform.Translate(direction * speed);
+            speedOne = 0;
+            speedTwo = 0;
             playerOneScoreCount++;
             SetPointsText();
         }
-        if (gameObject.tag.Equals("PlayerOne") && other.gameObject.tag.Equals("Tail"))
-        {
-            Debug.Log("I hit player two");
-            transform.Translate(direction * speed);
-            speed = 0;
-            playerTwoScoreCount++;
-            SetPointsText();
-        }
+
 
 
     }
 
     void SetPointsText()
     {
-        PlayerOneScore.text = playerOneScoreCount.ToString();
-        PlayerTwoScore.text = playerTwoScoreCount.ToString();
-      
+        PlayerOneScore.text = "Player One: " + playerOneScoreCount.ToString();
+        PlayerTwoScore.text = "Player Two: " + playerTwoScoreCount.ToString();
+        //Debug.Log(GameObject.name);
+        if(gameObject.tag.Equals("PlayerOne")){
+            transform.position = new Vector3(-1.295f, 0.775001f, 0f);
+        }
+        if (gameObject.tag.Equals("PlayerTwo")){
+            transform.position = new Vector3(-1.035015f, 0.755015f, 0f);
+        }
+       
+                
     }
-
-    //public IEnumerator BlinkText(){
-    //    while(true){
-    //        PlayerOneScore.text = "" + playerOneScoreCount;
-    //        yield return new WaitForSeconds(.5f);
-    //        PlayerTwoScore.text = "" + playerTwoScoreCount;
-    //        yield return new WaitForSeconds(.5f);
-    //    }
-    //}
 
 }
