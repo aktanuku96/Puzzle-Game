@@ -25,7 +25,7 @@ public class SnakeController : MonoBehaviour {
     private int playerOneScoreCount;
     private int playerTwoScoreCount;
 
-    List<Transform> tailOne = new List<Transform>();
+    //List<Transform> tailOne = new List<Transform>();
 
 	void Start () {
         //Vector2 pos = transform.position;
@@ -83,7 +83,7 @@ public class SnakeController : MonoBehaviour {
 
             else{
                 Debug.Log("hi");
-                Stop();
+                //Stop();
             }
 
             //else{
@@ -107,7 +107,7 @@ public class SnakeController : MonoBehaviour {
     void Move()
     {
         aud.PlayOneShot(sound);
-        if ((gameObject.name =="PlayerOne" && isHit == false))
+        if ((gameObject.name == "PlayerOne" && isHit == false))
         {
             transform.position += (Vector3)(direction * speedOne);
             Instantiate(PlayerOnePreFab, pos, transform.rotation);
@@ -119,20 +119,20 @@ public class SnakeController : MonoBehaviour {
         }
     }
 
-    void Stop(){
+    //void Stop(){
 
-        if ((gameObject.name == "PlayerOne"))
-        {
-           // Debug.Log("hiii");
-            transform.position += (Vector3)(direction * 0);
-        }
+    //    if ((gameObject.name == "PlayerOne"))
+    //    {
+    //       // Debug.Log("hiii");
+    //        transform.position += (Vector3)(direction * 0);
+    //    }
 
-        if ((gameObject.name == "PlayerTwo"))
-        {
-            transform.position += (Vector3)(direction * 0);
+    //    if ((gameObject.name == "PlayerTwo"))
+    //    {
+    //        transform.position += (Vector3)(direction * 0);
            
-        }
-    }
+    //    }
+    //}
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -181,7 +181,7 @@ public class SnakeController : MonoBehaviour {
                 SetPointsText();
             }
 
-            else if(gameObject.tag.Equals("PlayerOne")){
+            else if(gameObject.tag.Equals("PlayerTwo")){
                 // Debug.Log("I hit player two");
                 //transform.Translate(direction * speed);
                 speedOne = 0;
