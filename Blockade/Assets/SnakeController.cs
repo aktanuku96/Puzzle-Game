@@ -40,7 +40,7 @@ public class SnakeController : MonoBehaviour {
         isHit = false;
         //Debug.Log("Is it Hit? : " + isHit + " " + gameObject.name);
         if(gameObject.tag.Equals("PlayerOne")){
-            direction = Vector2.down;
+            direction = Vector2.up;
 
         }
         else if (gameObject.tag.Equals("PlayerTwo"))
@@ -225,10 +225,10 @@ public class SnakeController : MonoBehaviour {
         PlayerTwoScore.text = "Player Two: " + playerTwoScoreCount.ToString();
         //Debug.Log(GameObject.name);
         if(gameObject.tag.Equals("PlayerOne")){
-            transform.position = new Vector3(-1.295f, 0.775001f, 0f);
+            //transform.position = new Vector3(-1.295f, 0.775001f, 0f);
         }
         if (gameObject.tag.Equals("PlayerTwo")){
-            transform.position = new Vector3(-1.035015f, 0.755015f, 0f);
+          //  transform.position = new Vector3(-1.035015f, 0.755015f, 0f);
         }
        
                 
