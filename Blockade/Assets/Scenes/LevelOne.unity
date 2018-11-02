@@ -495,8 +495,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47eceaf3ca2cd43b582636412bd0bdbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreLimit: 0
-  playerPositions: []
+  scoreLimit: 5
+  playerPositions:
+  - {fileID: 1047477542}
+  - {fileID: 1365778465}
+  players:
+  - {fileID: 1047477537}
+  - {fileID: 1365778460}
+  playerScripts:
+  - {fileID: 1047477540}
+  - {fileID: 1365778463}
 --- !u!1001 &723368175
 Prefab:
   m_ObjectHideFlags: 0

@@ -83,7 +83,7 @@ public class SnakeController : MonoBehaviour {
 
             else{
                 Debug.Log("hi");
-                Stop();
+                //Stop();
             }
 
             //else{
@@ -126,20 +126,20 @@ public class SnakeController : MonoBehaviour {
         //}
     }
 
-    void Stop(){
+    //void Stop(){
 
-        if (gameObject.name == "PlayerOne")
-        {
-           // Debug.Log("hiii");
-            transform.position += (Vector3)(direction * 0);
-        }
+    //    if (gameObject.name == "PlayerOne")
+    //    {
+    //       // Debug.Log("hiii");
+    //        transform.position += (Vector3)(direction * 0);
+    //    }
 
-        if ((gameObject.name == "PlayerTwo"))
-        {
-            transform.position += (Vector3)(direction * 0);
+    //    if ((gameObject.name == "PlayerTwo"))
+    //    {
+    //        transform.position += (Vector3)(direction * 0);
            
-        }
-    }
+    //    }
+    //}
 
     void OnTriggerEnter2D(Collider2D other)
     {
