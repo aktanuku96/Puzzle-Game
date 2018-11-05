@@ -8,6 +8,7 @@ TagManager:
   - PlayerTwo
   - Wall
   - Tail
+  - Money
   layers:
   - Default
   - TransparentFX

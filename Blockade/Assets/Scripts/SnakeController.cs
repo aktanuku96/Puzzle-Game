@@ -17,8 +17,12 @@ public class SnakeController : MonoBehaviour {
 
     public bool isHit;
 
+
     public AudioClip sound;
     public AudioSource aud;
+
+    public AudioClip kaChing;
+    public bool hitMoney;
 
     private Vector2 pos;
    
@@ -86,6 +90,10 @@ public class SnakeController : MonoBehaviour {
     {
        // Debug.Log(other.gameObject.tag);
        // Debug.Log(gameObject.tag);
+        if(other.gameObject.tag.Equals("Money")){
+            hitMoney = true;
+            aud.PlayOneShot(kaChing);
+        }
         isHit = true;
 
         //speed = 0;

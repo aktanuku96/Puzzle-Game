@@ -117,13 +117,46 @@ public class GamePlay : MonoBehaviour {
 
         //Debug.Log(playerPositions[0].position);
         //Debug.Log(playerPositions[1].position);
-        playerPositions[0].position = new Vector3(2.5f, 16.5f, 1.0f);
-        playerPositions[1].position = new Vector3(25.5f, 0.5f, 1.0f);
+        playerPositions[0].position = new Vector3(0.5f, 17.5f, 1.0f);
+        playerPositions[1].position = new Vector3(28.5f, -0.5f, 1.0f);
         players[0].transform.position = playerPositions[0].position;
         players[1].transform.position = playerPositions[1].position;
 
+        if(playerScripts[0].hitMoney || playerScripts[1].hitMoney){
+            if(playerScripts[0].hitMoney && playerScripts[1].hitMoney){
+                ScoreCounts[0] += 1000;
+                ScoreCounts[1] += 1000;
+            }
+            else if(playerScripts[0].hitMoney){
+                ScoreCounts[1] += 1000;
+            }
+
+            else if (playerScripts[1].hitMoney)
+            {
+                ScoreCounts[0] += 1000;
+            }
+        }
+
         if (ScoreCounts[0] >= scoreLimit || ScoreCounts[1] >= scoreLimit) {
-            GameOverText.enabled = true;
+            if (playerScripts[0].hitMoney || playerScripts[1].hitMoney){
+                UnityEngine.SceneManagement.SceneManager.LoadScene("SternSuccess");
+            }
+            else{
+                GameObject[] BlockObjects = GameObject.FindGameObjectsWithTag("Block");
+                BlockObjects = GameObject.FindGameObjectsWithTag("Block");
+                foreach (var BlockObject in BlockObjects)
+                {
+                    //Debug.Log("destroying");
+                    Destroy(BlockObject);
+                    //Debug.Log("destroying");
+                }
+                GameOverText.enabled = true;
+
+                yield return new WaitForSeconds(4.0f);
+
+                UnityEngine.SceneManagement.SceneManager.LoadScene("LevelOne");
+            }
+
         }
 
         else{
