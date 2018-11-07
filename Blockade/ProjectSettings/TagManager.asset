@@ -9,6 +9,7 @@ TagManager:
   - Wall
   - Tail
   - Money
+  - Block
   layers:
   - Default
   - TransparentFX
